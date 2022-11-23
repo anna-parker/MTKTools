@@ -21,9 +21,9 @@ function is_degenerate(M::MCC_set)
 end
 
 function is_degenerate(MCC1::Vector{Vector{String}}, MCC2::Vector{Vector{String}}, MCC3::Vector{Vector{String}})
-    if (!MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC1, MCC2]; dict=true), map_mccs_leaves(MCC3)) || 
-        !MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC1, MCC3]; dict=true), map_mccs_leaves(MCC2)) ||
-        !MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC3, MCC2]; dict=true), map_mccs_leaves(MCC1)))
+    if (!MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC1, MCC2]; dict=true), TreeKnit.map_mccs_leaves(MCC3)) || 
+        !MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC1, MCC3]; dict=true), TreeKnit.map_mccs_leaves(MCC2)) ||
+        !MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC3, MCC2]; dict=true), TreeKnit.map_mccs_leaves(MCC1)))
         return true
     else
         return false
