@@ -5,15 +5,14 @@ for different simulation type
 """
 function get_r(ρ, n, N, simtype::Symbol)
     if simtype == :kingman
-        return ρ * n / N
+        return ρ * n / (2*N)
     elseif simtype == :yule
         return ρ / N
     elseif simtype == :flu
-    	return ρ * n^0.2 / N
+    	return ρ * (n/2)^0.2 / N
     else
         @error "Unrecognized `simtype`."
     end
-end
 
 """
 get_trees(no_trees, no_lineages; remove=false, debug=false, c=0.75, ρ = 0.05
@@ -72,24 +71,39 @@ function remove_branches(input_trees; c=0.75, N = 10_000)
     return trees
 end
 
-
 function get_c(res_rate, rec; n=100, simtype=:flu)
     if simtype == :flu
-        c_values = CSV.read("../influenza_c_values.txt", DataFrame)
-        keys = c_values.rec_rate 
-        if res_rate == 0.3
-            values = c_values."res_0.3" 
-        elseif res_rate == 0.35
-            values = c_values."res_0.35" 
-        elseif res_rate == 0.4
-            values = c_values."res_0.4" 
-        else
-            throw(Error("not implemented"))
+        if n==50
+            c_values = CSV.read("../influenza_c_values_50.txt", DataFrame)
+        elseif n==100
+            c_values = CSV.read("../influenza_c_values_100.txt", DataFrame)
         end
-        dict_ = Dict(zip(keys, values))
-        return dict_[rec]
+        try
+            keys = c_values.rec_rate 
+            if res_rate == 0.3
+                values = c_values."res_0.3" 
+            elseif res_rate == 0.35
+                values = c_values."res_0.35" 
+            elseif res_rate == 0.4
+                values = c_values."res_0.4" 
+            end
+            dict_ = Dict(zip(keys, values))
+            return dict_[rec]
+        catch
+            throw(Error("not calculated"))
+        end
     elseif simtype == :kingman
-        return 0.75
+        if n==50
+            c_values = [0.184, 0.152, 0.1269]
+        elseif n==100
+            c_values = [0.121, 0.099, 0.079]
+        end
+        try
+            dict_ = Dict(zip([0.3, 0.35, 0.4], c_values))
+            return dict_[res_rate] 
+        catch
+            throw(Error("not calculated"))
+        end
     end
 end
 
