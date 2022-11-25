@@ -29,13 +29,13 @@ function get_trees(no_trees, no_lineages; remove=false, c=0.75, ρ = 0.05, N = 1
     N = N # pop size
     nmax = no_lineages  # total number of lineages
     if s!=0.0 #if additional parameters should be added
-        #n0 = max(1, round((1-s)*no_lineages))
         n0 = 0.25*nmax
         s = s*(nmax-1)*nmax^0.2 /(2*N) # add leaves before time 0 at a rate relative to coalescence
+        r = get_r(ρ, 0.75*nmax, N, simtype) # Absolute reassortment rate
     else
         n0 = nmax
+        r = get_r(ρ, nmax, N, simtype) # Absolute reassortment rate
     end
-    r = get_r(ρ, 0.75*nmax, N, simtype) # Absolute reassortment rate
 
     # Simulating the ARG
     arg = ARGTools.SimulateARG.simulate(N, r, n0; s, nmax, K=no_trees, simtype);
@@ -43,8 +43,6 @@ function get_trees(no_trees, no_lineages; remove=false, c=0.75, ρ = 0.05, N = 1
     trees = ARGTools.trees_from_ARG(arg; node_data = TreeTools.MiscData);
     if remove
         trees = remove_branches(trees; c=c, N = N)
-    else
-        trees = [convert(TreeTools.Tree{TreeTools.MiscData}, t) for t in trees]
     end
     return trees, arg
 end
