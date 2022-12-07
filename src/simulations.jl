@@ -13,6 +13,7 @@ function get_r(ρ, n, N, simtype::Symbol)
     else
         @error "Unrecognized `simtype`."
     end
+end
 
 """
 get_trees(no_trees, no_lineages; remove=false, debug=false, c=0.75, ρ = 0.05
@@ -62,7 +63,7 @@ function remove_branches(input_trees; c=0.75, N = 10_000)
             end
         end
         for node_label in delete_list
-            delete_node!(trees[i], node_label, ptau=true)
+            TreeTools.delete!(trees[i], node_label; delete_time=false)
         end
     end
     trees = [convert(TreeTools.Tree{TreeTools.MiscData}, t) for t in trees]
