@@ -73,9 +73,9 @@ end
 function get_c(res_rate, rec; n=100, simtype=:flu)
     if simtype == :flu
         if n==50
-            c_values = CSV.read("../influenza_c_values_50.txt", DataFrame)
+            c_values = CSV.read("$(dirname(pathof(MTKTools)))/../influenza_c_values_50.txt", DataFrame)
         elseif n==100
-            c_values = CSV.read("../influenza_c_values_100.txt", DataFrame)
+            c_values = CSV.read("$(dirname(pathof(MTKTools)))/../influenza_c_values_100.txt", DataFrame)
         end
         try
             keys = c_values.rec_rate 
