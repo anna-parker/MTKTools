@@ -93,7 +93,7 @@ function get_c(res_rate, rec; n=100, simtype=:flu)
         end
     elseif simtype == :kingman
         if n==50
-            c_values = [0.184, 0.152, 0.1269]
+            c_values = [0.18, 0.15, 0.12]
         elseif n==100
             c_values = [0.121, 0.099, 0.079]
         end
