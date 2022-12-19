@@ -93,12 +93,12 @@ function get_c(res_rate, rec; n=100, simtype=:flu)
         end
     elseif simtype == :kingman
         if n==50
-            c_values = [1, 0.32, 0.18, 0.15, 0.12]
+            c_values = [1, 0.32, 0.235, 0.19, 0.15, 0.13]
         elseif n==100
-            c_values = [0.5, 0.195, 0.12, 0.10, 0.08]
+            c_values = [0.48, 0.195, 0.155, 0.125, 0.10, 0.08]
         end
         try
-            dict_ = Dict(zip([0.1, 0.2, 0.3, 0.35, 0.4], c_values))
+            dict_ = Dict(zip([0.1, 0.2, 0.25, 0.3, 0.35, 0.4], c_values))
             return dict_[res_rate] 
         catch
             throw(Error("not calculated"))
