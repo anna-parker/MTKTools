@@ -101,3 +101,22 @@ end
     @test false_positive == 1
     @test false_negative == 2
 end
+
+
+nwk1 = "(((A,B),C),(D,(E,F)));"
+nwk2 = "((A,(B,C)),(D,E,F));"
+nwk3 = "((A,B,C),((D,E),F));"
+
+t1 = node2tree(TreeTools.parse_newick(nwk1), label = "a")
+t2 = node2tree(TreeTools.parse_newick(nwk2), label = "b")
+t3 = node2tree(TreeTools.parse_newick(nwk3), label = "c")
+
+
+@testset "topological incompatibility of MCCs" begin
+    @test MTKTools.is_topo_compatible(t1, t2, ["A", "B", "C"]) == false
+    @test MTKTools.is_topo_compatible(t1, t3, ["A", "B", "C"]) == true
+    @test MTKTools.is_topo_compatible(t2, t3, ["A", "B", "C"]) == true
+    @test MTKTools.is_full_topo_compatible(t1, t2, ["A", "B", "C"]) == false
+    @test MTKTools.is_full_topo_compatible(t1, t3, ["A", "B", "C"]) == false
+    @test MTKTools.is_full_topo_compatible(t2, t3, ["A", "B", "C"]) == false
+end

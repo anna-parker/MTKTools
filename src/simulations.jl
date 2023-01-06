@@ -85,6 +85,10 @@ function get_c(res_rate, rec; n=100, simtype=:flu)
                 values = c_values."res_0.35" 
             elseif res_rate == 0.4
                 values = c_values."res_0.4" 
+            elseif res_rate == 0.2
+                values = c_values."res_0.2" 
+            elseif res_rate == 0.25
+                values = c_values."res_0.25" 
             end
             dict_ = Dict(zip(keys, values))
             return dict_[rec]
