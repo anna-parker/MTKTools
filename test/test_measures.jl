@@ -35,7 +35,7 @@ end
     t2 = node2tree(TreeTools.parse_newick(nwk2, node_data_type=TreeTools.MiscData), label= "b")
     t3 = node2tree(TreeTools.parse_newick(nwk3, node_data_type=TreeTools.MiscData), label= "c")
     input_trees = [copy(t1), copy(t2), copy(t3)]
-    MCC_dict = MTK.get_infered_MCC_pairs!(input_trees, consistent=true)
+    MCC_dict = MCC_set(3, ["a", "b", "c"], Dict(Set(["a", "b"]) => [["A"], ["B", "C"]], Set(["a", "c"]) => [["A", "B", "C"]], Set(["b", "c"]) => [["A"], ["B", "C"]]))
     c = MTKTools.consistency_rate(MCC_dict, input_trees)
     cfull = MTKTools.consistency_rate(MTK.iter_pairs(MCC_dict)[2]..., input_trees)
     @test c == 0

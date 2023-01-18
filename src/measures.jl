@@ -21,9 +21,9 @@ function is_degenerate(M::MCC_set)
 end
 
 function is_degenerate(MCC1::Vector{Vector{String}}, MCC2::Vector{Vector{String}}, MCC3::Vector{Vector{String}})
-    if (!MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC1, MCC2]; dict=true), TreeKnit.map_mccs_leaves(MCC3)) || 
-        !MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC1, MCC3]; dict=true), TreeKnit.map_mccs_leaves(MCC2)) ||
-        !MTK.is_MCC_subset(MTK.MCC_join_constraint([MCC3, MCC2]; dict=true), TreeKnit.map_mccs_leaves(MCC1)))
+    if (!is_MCC_subset(MCC_join_constraint([MCC1, MCC2]; dict=true), TreeKnit.map_mccs_leaves(MCC3)) || 
+        !is_MCC_subset(MCC_join_constraint([MCC1, MCC3]; dict=true), TreeKnit.map_mccs_leaves(MCC2)) ||
+        !is_MCC_subset(MCC_join_constraint([MCC3, MCC2]; dict=true), TreeKnit.map_mccs_leaves(MCC1)))
         return true
     else
         return false
@@ -72,12 +72,12 @@ end
 
 
 function consistent_mcc_triplets(MCCs, trees; masked=false)
-    constraint = MTK.MCC_join_constraint([MCCs[1], MCCs[2]])
+    constraint = MCC_join_constraint([MCCs[1], MCCs[2]])
     s = 0
 	Z = 0
     for t in trees
         tree = copy(t)
-        shared_branches_map_ = MTK.map_shared_branches(constraint, tree)
+        shared_branches_map_ = map_shared_branches(constraint, tree)
         for n in nodes(tree)
             if isroot(n)
                 continue
@@ -90,7 +90,7 @@ function consistent_mcc_triplets(MCCs, trees; masked=false)
             end
         end
     end
-    @assert (masked && s!=0 && MTK.is_MCC_subset(MTK.MCC_join_constraint([MCCs[1], MCCs[2]]), MCCs[3])) == false "Error: Should be consistent" 
+    @assert (masked && s!=0 && MTK.is_MCC_subset(MCC_join_constraint([MCCs[1], MCCs[2]]), MCCs[3])) == false "Error: Should be consistent" 
     return  Z == 0 ? 0.0 : s / Z
 end
 
@@ -110,8 +110,8 @@ function accuracy_shared_branches(tree, true_tree, MCC, rMCC)
     true_negative = 0
     false_negative = 0
     ##note the true tree should be fully resolved
-    shared_branches_ = MTK.map_shared_branches(MCC, tree)
-    real_shared_branches_ = MTK.map_shared_branches(rMCC, true_tree)
+    shared_branches_ = map_shared_branches(MCC, tree)
+    real_shared_branches_ = map_shared_branches(rMCC, true_tree)
     true_splits = SplitList(true_tree)
     true_splits_dict = Dict()
     for n in nodes(true_tree)
