@@ -23,9 +23,9 @@ function join_sets_slow(input_sets::Vector{Vector{Vector{String}}})
 end
 
 
-tree3 = convert(Tree{TreeTools.MiscData},node2tree(parse_newick("((A,B)i1,((C,D)i2,((E,(F1,F2)i6)i4,G)i5)i3)i7")))
-tree1 = convert(Tree{TreeTools.MiscData},node2tree(parse_newick("((A,B)j1,(((C,D)j2,(E,(F1,F2)j3)j4)j5,G)j6)j7")))
-tree2 = convert(Tree{TreeTools.MiscData},node2tree(parse_newick("((G,(A,B)k1)k2,((E,(C,D)k3)k4,(F1,F2)k5)k6)k7")))
+tree3 = convert(Tree{TreeTools.MiscData}, parse_newick_string("((A,B)i1,((C,D)i2,((E,(F1,F2)i6)i4,G)i5)i3)i7;"))
+tree1 = convert(Tree{TreeTools.MiscData}, parse_newick_string("((A,B)j1,(((C,D)j2,(E,(F1,F2)j3)j4)j5,G)j6)j7;"))
+tree2 = convert(Tree{TreeTools.MiscData}, parse_newick_string("((G,(A,B)k1)k2,((E,(C,D)k3)k4,(F1,F2)k5)k6)k7;"))
 MCC12 = TreeKnit.sort([["A", "B", "E", "F1", "F2"], ["G"], ["C", "D"]], lt=TreeKnit.clt)
 MCC13 = TreeKnit.sort([["A", "B", "C", "D", "G"], ["E", "F1", "F2"]], lt=TreeKnit.clt)
 

@@ -37,7 +37,7 @@ end
     input_trees = [copy(t1), copy(t2), copy(t3)]
     MCC_dict = MCC_set(3, ["a", "b", "c"], Dict(Set(["a", "b"]) => [["A"], ["B", "C"]], Set(["a", "c"]) => [["A", "B", "C"]], Set(["b", "c"]) => [["A"], ["B", "C"]]))
     c = MTKTools.consistency_rate(MCC_dict, input_trees)
-    cfull = MTKTools.consistency_rate(MTK.iter_pairs(MCC_dict)[2]..., input_trees)
+    cfull = MTKTools.consistency_rate(TreeKnit.iter_pairs(MCC_dict)[2]..., input_trees)
     @test c == 0
     @test c == sum(cfull)/3
     MCC12 = [["A"], ["B", "C"]]

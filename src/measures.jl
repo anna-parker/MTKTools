@@ -1,4 +1,4 @@
-using TreeKnit.MTK
+using TreeKnit
 
 """
 is_degenerate(M::MCC_set)
@@ -90,7 +90,7 @@ function consistent_mcc_triplets(MCCs, trees; masked=false)
             end
         end
     end
-    @assert (masked && s!=0 && MTK.is_MCC_subset(MCC_join_constraint([MCCs[1], MCCs[2]]), MCCs[3])) == false "Error: Should be consistent" 
+    @assert (masked && s!=0 && is_MCC_subset(MCC_join_constraint([MCCs[1], MCCs[2]]), MCCs[3])) == false "Error: Should be consistent" 
     return  Z == 0 ? 0.0 : s / Z
 end
 
