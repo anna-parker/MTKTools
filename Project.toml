@@ -1,6 +1,6 @@
 name = "MTKTools"
 uuid = "05dc0372-207a-43a3-ab1f-97545debb165"
-authors = ["anna-parker <anya.m.parker@gmail.com>"]
+authors = ["anna-parker"]
 version = "0.1.0"
 
 [deps]
